@@ -72,10 +72,12 @@ run_command() {
     log info in directory "'$directory'"
 
     $runtime build -t "$container" "$directory" > /dev/null && \
-        $runtime $CAKE_RUNTIME_ARGS \
-        run -v "${PWD}:${PWD}" \
+        $runtime run \
+        -v "${PWD}:${PWD}" \
         -w "${PWD}" \
-        --rm -it $container make $@
+        --rm -it \
+        $CAKE_RUNTIME_ARGS \
+        $container make $@
 }
 
 run_command $@
