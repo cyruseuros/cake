@@ -18,12 +18,8 @@ log() {
     printf "%b %s\n" "$log_type" "$1"
 }
 
-in_docker_group() {
-    id -Gn | grep -qw docker
-}
-
 set_runtime() {
-    if type docker > /dev/null && in_docker_group; then
+    if type docker > /dev/null; then
         log info 'using docker'
         runtime=docker
     elif type podman > /dev/null; then
