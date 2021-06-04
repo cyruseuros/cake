@@ -9,8 +9,8 @@ development Docker/Podman container.
 ### Vision
 - Most projects should have a Makefile and a Dockerfile at their root for
   convenience and portability
-  - The Makefile is the single source of truth for dev commands
-  - The Dockerfile is the single source of truth for the dev environment
+  - The Makefile is the single source of truth for the build process
+  - The Dockerfile is the single source of truth for the build environment
 - A container runtime should not be a hard dependency to build the project.
 - Choosing between containerized and "naked" builds should be as easy as typing
   `make` or `cake` interchangeably 
