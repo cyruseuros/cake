@@ -33,6 +33,9 @@ set_runtime() {
 
 set_directory() {
     # posixly parse first occurrence of -C dir/--directory dir/--directory=dir
+    # NOTE: consider removing the first directory argument and bind-mounting
+    # `$directory` instead of `$PWD` in the future - its slightly less tolerant
+    # but more consistent
     while getopts ":C:-:" o; do
         # NOTE: we're passing unknown arguments through
         # shellcheck disable=SC2220
@@ -71,11 +74,18 @@ set_directory() {
     fi
 }
 
+set_dockerfiles() {
+    if [ -d "$CAKE_DOCKERFILES" ]; then
+        dockerfiles=$(find "$CAKE_DOCKERFILES" \( -name Dockerfile -o -name '*.dockerfile' \))
+    else
+        dockerfiles="${CAKE_DOCKERFILES:-${directory}/Dockerfile}"
+    fi
+}
+
 run_command() {
     set_runtime
     set_directory "$@"
-
-    dockerfiles="${CAKE_DOCKERFILES:-${directory}/Dockerfile}"
+    set_dockerfiles
 
     for dockerfile in $dockerfiles; do
         # NOTE: it's not enough to just use the `$dockerfile` as a different build

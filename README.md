@@ -5,15 +5,15 @@ Cake is a *really* thin, drop-in replacement/wrapper around `make` that runs all
 of your targets inside of a development Docker/Podman container.
 
 ### Vision
-- Most projects should have a Makefile and a Dockerfile at their root for
+- Most projects should have a `Makefile` and a `Dockerfile` at their root for
   convenience and portability
-  - The Makefile is the single source of truth for the build process
-  - The Dockerfile is the single source of truth for the build environment
+  - The `Makefile` is the single source of truth for the build process
+  - The `Dockerfile` is the single source of truth for the build environment
 - A container runtime should not be a hard dependency to build the project.
 - Choosing between containerized and "naked" builds should be as easy as typing
   `make` or `cake` interchangeably 
-- CI/CD pipelines should be able to reuse the instructions from the Makefile in
-  an ergonomic way without having to keep the build context in mind
+- CI/CD pipelines should be able to reuse the instructions from the `Makefile`
+  in an ergonomic way without having to keep the build context in mind
     
 ## Why Cake?
 Because I found myself constantly writing Makefiles that run their targets in a
@@ -47,14 +47,18 @@ specific needs of your project.
 If you're building/testing your software against multiple environments, you can
 always set `$CAKE_DOCKERFILES` (defaults to Make's `${PWD}/Dockerfile` - which
 is not necessarily the same as your shell's `${PWD}/Dockerfile`). This will run
-your Make targets in one container per Dockerfile. This is one the area in which
-Cake diverges from Make. You have to specify Cake-relevant environment variables
-before the command, not after. You can take a look at my test cases for example invocations:
+your Make targets in one container per `Dockerfile`. If `$CAKE_DOCKERFILES` is
+set to a directory, all `Dockerfile`s in that directory (and all its
+sub-directories) will be used. This is one the area in which Cake diverges from
+Make. You have to specify Cake-relevant environment variables before the
+command, not after. You can take a look at my test cases for example
+invocations:
 
 ``` sh
 cake
 cake all
 cake -C subdir
+CAKE_DOCKERFILES='subdir/cake
 CAKE_DOCKERFILES='subdir/Dockerfile' cake
 CAKE_DOCKERFILES='subdir/one.dockerfile subdir/Dockerfile' cake
 ```
