@@ -55,3 +55,28 @@ shell:
     /bin/sh
 ```
 It's more ergonomic then copying the container name.
+
+
+The same goes for dealing with things like `./autogen.sh` and the `./configure`
+script (often managed directly by the user). I tend to call those through a
+`Makefile` as well. Take this snippet from the `GNUMakefile` in the Emacs source
+tree as an example:
+
+``` makefile
+configure:
+	@echo >&2 'There seems to be no "configure" file in this directory.'
+	@echo >&2 Running ./autogen.sh ...
+	./autogen.sh
+	@echo >&2 '"configure" file built.'
+
+Makefile: configure
+	@echo >&2 'There seems to be no Makefile in this directory.'
+	@echo >&2 'Running ./configure ...'
+	./configure
+	@echo >&2 'Makefile built.'
+
+# 'make bootstrap' in a fresh checkout needn't run 'configure' twice.
+bootstrap: Makefile
+	$(MAKE) -f Makefile all
+```
+
