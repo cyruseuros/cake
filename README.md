@@ -50,7 +50,7 @@ always set `$CAKE_DOCKERFILES` (defaults to Make's `${PWD}/Dockerfile` - which
 is not necessarily the same as your shell's `${PWD}/Dockerfile`). This will run
 your Make targets in one container per `Dockerfile`. If `$CAKE_DOCKERFILES` is
 set to a directory, all `Dockerfile`s in that directory (and all its
-sub-directories) will be used. This is one the area in which Cake diverges from
+sub-directories) will be used. This is the one area in which Cake diverges from
 Make. You have to specify Cake-relevant environment variables before the
 command, not after. You can take a look at my test cases for example
 invocations:
