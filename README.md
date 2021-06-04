@@ -33,7 +33,7 @@ you're good to go.
 ## Completions
 I might provide them for convenience later, but in principle all you need to do
 is reuse existing make completions. In `zsh` that looks something like this:
-```zsh
+``` zsh
 compdef _make cake
 ```
 
@@ -43,6 +43,22 @@ you really have to, you can specify additional `docker`/`podman` arguments using
 `$CAKE_RUNTIME_ARGS`. I recommend placing these in your
 [.envrc](https://direnv.net/) if you need them to stick around due to the
 specific needs of your project.
+
+If you're building/testing your software against multiple environments, you can
+always set `$CAKE_DOCKERFILES` (defaults to Make's `${PWD}/Dockerfile` - which
+is not necessarily the same as your shell's `${PWD}/Dockerfile`). This will run
+your Make targets in one container per Dockerfile. This is one the area in which
+Cake diverges from Make. You have to specify Cake-relevant environment variables
+before the command, not after. You can take a look at my test cases for example invocations:
+
+``` sh
+cake all
+cake -C subdir
+CAKE_DOCKERFILES='subdir/Dockerfile' cake
+CAKE_DOCKERFILES='subdir/one.dockerfile subdir/Dockerfile' cake
+CAKE_DOCKERFILES='subdir/one.dockerfile subdir/Dockerfile' cake -C subdir
+```
+
 
 ## Tips
 

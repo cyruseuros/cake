@@ -75,21 +75,28 @@ run_command() {
     set_runtime
     set_directory "$@"
 
-    checksum=$(echo "$directory" | cksum | cut -d ' ' -f 1)
-    basename=$(basename "${directory}")
-    container="cake-${basename}-${checksum}"
+    dockerfiles="${CAKE_DOCKERFILES:-${directory}/Dockerfile}"
 
-    log info "running 'make $*'"
-    log info "in container '$container'"
-    log info "in directory '$directory'"
+    for dockerfile in $dockerfiles; do
+        # NOTE: it's not enough to just use the `$dockerfile` as a different build
+        # context could result in a different container
+        checksum=$(echo "${directory}" "${dockerfile}" | cksum | cut -d ' ' -f 1)
+        basename=$(basename "${directory}")
+        container="cake-${basename}-${checksum}"
 
-    if "$runtime" build -t "$container" "$directory" > /dev/null; then
-        # NOTE: we want `$CAKE_RUNTIME_ARGS` to be split
-        # shellcheck disable=SC2086
-        "$runtime" run -v "${PWD}:${PWD}" -w "$PWD" --rm -it \
-            $CAKE_RUNTIME_ARGS \
-            "$container" make "$@"
-    fi
+        log info "running 'make $*'"
+        log info "in container '$container'"
+        log info "using Dockerfile '$dockerfile'"
+        log info "in directory '$directory'"
+
+        if "$runtime" build -t "$container" -f "$dockerfile" "$directory" > /dev/null; then
+            # NOTE: we want `$CAKE_RUNTIME_ARGS` to be split
+            # shellcheck disable=SC2086
+            "$runtime" run -v "${PWD}:${PWD}" -w "$PWD" --rm -it \
+                $CAKE_RUNTIME_ARGS \
+                "$container" make "$@"
+        fi
+    done
 }
 
 run_command "$@"
