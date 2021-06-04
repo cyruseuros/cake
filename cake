@@ -63,7 +63,7 @@ set_directory() {
         directory="$PWD"
     else
         if [ -d "$directory" ]; then
-            directory=$(cd "$directory" > /dev/null 2>&1 && echo "$PWD")
+            directory=$(cd "$directory" && echo "$PWD")
         else
             log error "'$directory' is not a directory"
             exit 1
