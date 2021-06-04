@@ -36,21 +36,30 @@ set_runtime() {
 }
 
 set_directory() {
-    # posixly parse first occurrence of -C dir/--directory=dir
+    # posixly parse first occurrence of -C dir/--directory dir/--directory=dir
     while getopts ":C:-:" o; do
         # NOTE: we're passing unknown arguments through
         # shellcheck disable=SC2220
         case "$o" in
             C) directory="$OPTARG"; break;;
             -) [ $OPTIND -ge 1 ] && optind=$((OPTIND - 1)) || optind=$OPTIND
-                eval OPTION="\$$optind"
-                OPTARG=$(echo "$OPTION" | cut -d '=' -f 2)
-                OPTION=$(echo "$OPTION" | cut -d '=' -f 1)
-                case $OPTION in
-                    --directory) directory="$OPTARG"; break;;
-                esac
-                OPTIND=1
-                shift;;
+               eval option="\$$optind"
+               if [ "${option#*=}" != "$option" ]; then
+                   # --option=arg style
+                   optarg=$(echo "$option" | cut -d '=' -f 2)
+                   option=$(echo "$option" | cut -d '=' -f 1)
+                   if [ "$option" = '--directory' ]; then
+                       directory="$optarg"
+                       break
+                   fi
+               else
+                   # --option arg style
+                   if [ "$option" = '--directory' ]; then
+                       optind=$((optind + 1))
+                       eval directory="\$$optind"
+                       break
+                   fi
+               fi;;
         esac
     done
 
@@ -82,8 +91,8 @@ run_command() {
         # NOTE: we want `$CAKE_RUNTIME_ARGS` to be split
         # shellcheck disable=SC2086
         "$runtime" run -v "${PWD}:${PWD}" -w "$PWD" --rm -it \
-        $CAKE_RUNTIME_ARGS \
-        "$container" make "$@"
+            $CAKE_RUNTIME_ARGS \
+            "$container" make "$@"
     fi
 }
 
