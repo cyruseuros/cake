@@ -1,10 +1,8 @@
-# 🍰 
-In the beginning there was darkness...
-but now there is cake!
+<h1 align="center"> 🍰 </h1>
 
 ## What is Cake?
-Cake is a *really* thin wrapper around `make` that runs all targets inside a
-development Docker/Podman container.
+Cake is a *really* thin, drop-in replacement/wrapper around `make` that runs all
+of your targets inside of a development Docker/Podman container.
 
 ### Vision
 - Most projects should have a Makefile and a Dockerfile at their root for
