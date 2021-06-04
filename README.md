@@ -5,8 +5,9 @@ Cake is a *really* thin, drop-in replacement/wrapper around `make` that runs all
 of your targets inside of a development Docker/Podman container.
 
 ### Vision
-- Most projects should have a `Makefile` and a `Dockerfile` at their root for
-  convenience and portability
+- Though Cake supports more complex workflows, most projects that currently have
+  a `Makefile` at their root should also place a developer-focused `Dockerfile`
+  there for convenience and portability
   - The `Makefile` is the single source of truth for the build process
   - The `Dockerfile` is the single source of truth for the build environment
 - A container runtime should not be a hard dependency to build the project.
