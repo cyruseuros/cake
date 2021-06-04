@@ -35,7 +35,6 @@ you're good to go.
 ## Completions
 I might provide them for convenience later, but in principle all you need to do
 is reuse existing make completions. In `zsh` that looks something like this:
-
 ```zsh
 compdef _make cake
 ```
@@ -46,3 +45,13 @@ you really have to, you can specify additional `docker`/`podman` arguments using
 `$CAKE_RUNTIME_ARGS`. I recommend placing these in your
 [.envrc](https://direnv.net/) if you need them to stick around due to the
 specific needs of your project.
+
+## Tips
+
+If I want to debug my development container, I like to add a `shell` target
+to my `Makefile` like so:
+``` makefile
+shell:
+    /bin/sh
+```
+It's more ergonomic then copying the container name.
