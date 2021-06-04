@@ -9,10 +9,12 @@ shell:
 
 # run naked
 test:
+	./cake
 	./cake cat
 	./cake -C subdir
+	./cake --directory subdir
+	./cake --directory=subdir
 	CAKE_DOCKERFILES='subdir/Dockerfile' ./cake
-	CAKE_DOCKERFILES='subdir/example.dockerfile subdir/Dockerfile' ./cake
 	CAKE_DOCKERFILES='subdir/example.dockerfile subdir/Dockerfile' ./cake -C subdir
 
 install:

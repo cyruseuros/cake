@@ -52,11 +52,11 @@ Cake diverges from Make. You have to specify Cake-relevant environment variables
 before the command, not after. You can take a look at my test cases for example invocations:
 
 ``` sh
+cake
 cake all
 cake -C subdir
 CAKE_DOCKERFILES='subdir/Dockerfile' cake
 CAKE_DOCKERFILES='subdir/one.dockerfile subdir/Dockerfile' cake
-CAKE_DOCKERFILES='subdir/one.dockerfile subdir/Dockerfile' cake -C subdir
 ```
 
 
