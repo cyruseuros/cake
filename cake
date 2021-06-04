@@ -3,8 +3,8 @@
 log() {
     if [ -t 1 ]; then
         case $1 in
-            error) log_type="\e[1mcake: \e[32merror:\e[0m" ;;
-            warning) log_type="\e[1mcake: \e[32mwarning:\e[0m" ;;
+            error) log_type="\e[1mcake: \e[31merror:\e[0m" ;;
+            warning) log_type="\e[1mcake: \e[33mwarning:\e[0m" ;;
             info) log_type="\e[1mcake: \e[32minfo:\e[0m" ;;
         esac
     else
