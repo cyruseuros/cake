@@ -27,6 +27,20 @@ tools like [act](https://github.com/nektos/act) without being tied to a specific
 forge.
 
 ## How-To
+To install use following command:
+
+```bash
+sudo curl -L -s "https://raw.githubusercontent.com/wurosh/cake/master/cake" -o /usr/local/bin/cake && chmod +x /usr/local/bin/cake
+```
+
+or 
+
+```bash
+curl -L -s "https://raw.githubusercontent.com/wurosh/cake/master/cake" -o ~/.local/bin/cake && chmod +x ~/.local/bin/cake
+```
+
+Ensure environment variable `PATH` includes `/usr/local/bin` or `~/.local/bin/` accordingly.
+
 Just use `cake` instead of `make`. The defaults should fit most use cases.
 
 If you really have to, you can specify additional `docker`/`podman` arguments
@@ -54,7 +68,6 @@ CAKE_DOCKERFILES='subdir/one.dockerfile subdir/Dockerfile' cake
 
 
 ## Tips
-
 If I want to debug my development container, I like to add a `shell` target
 to my `Makefile` like so:
 ``` makefile
