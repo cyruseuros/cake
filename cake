@@ -99,11 +99,15 @@ run_command() {
         log info "using Dockerfile '$dockerfile'"
         log info "in directory '$directory'"
 
+        if [ -t 1 ]; then
+            tty_args='-it'
+        fi
+
         if "$runtime" build -t "$container" -f "$dockerfile" "$directory" > /dev/null; then
-            # NOTE: we want `$CAKE_RUNTIME_ARGS` to be split
+            # NOTE: we want `$CAKE_RUNTIME_ARGS` to be split and no $tty_args to be ignored
             # shellcheck disable=SC2086
-            "$runtime" run -v "${PWD}:${PWD}" -w "$PWD" --rm -it \
-                $CAKE_RUNTIME_ARGS \
+            "$runtime" run -v "${PWD}:${PWD}" -w "$PWD" --rm \
+                $tty_args $CAKE_RUNTIME_ARGS \
                 "$container" make "$@"
         fi
     done
