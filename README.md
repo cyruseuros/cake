@@ -26,7 +26,7 @@ a script. Despite its simplicity, the script covers 99% of my use cases for
 tools like [act](https://github.com/nektos/act) without being tied to a specific
 forge.
 
-## How-To
+## Installation
 To install use following command:
 
 ```bash
@@ -41,6 +41,7 @@ curl -L -s "https://raw.githubusercontent.com/wurosh/cake/master/cake" -o ~/.loc
 
 Ensure environment variable `PATH` includes `/usr/local/bin` or `~/.local/bin/` accordingly.
 
+## How-To
 Just use `cake` instead of `make`. The defaults should fit most use cases.
 
 If you really have to, you can specify additional `docker`/`podman` arguments
